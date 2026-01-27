@@ -5,7 +5,7 @@ permissions:
   pull-requests: write # 在 PR 中发表评论
   checks: write       # 更新检查状态
   statuses: write     # 更新 commit 状态
-  
+
 jobs:
   e2e-test:
     timeout-minutes: 60
@@ -20,10 +20,10 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm ci
+        run: bun ci
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: bunx playwright install --with-deps
 
       - name: Wait for Vercel Preview
         uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
@@ -33,7 +33,7 @@ jobs:
           max_timeout: 300
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: bunx playwright test
         env:
           # 动态注入预览地址
           BASE_URL: ${{ steps.waitForVercel.outputs.url }}

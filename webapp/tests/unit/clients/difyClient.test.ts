@@ -127,6 +127,22 @@ describe('DifyAgentClient', () => {
       expect(result.message).toContain('服务暂时不可用');
     });
 
+    it('should handle error when response.text() fails', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        text: async () => {
+          throw new Error('Failed to read response body');
+        },
+      });
+
+      const result = await client.processFeedback('Test feedback');
+
+      expect(result.success).toBe(false);
+      expect(result.message).toContain('服务暂时不可用');
+      expect(result.message).toContain('无法读取错误信息');
+    });
+
     it('should extract message from different response formats', async () => {
       const testCases = [
         { outputs: { content: 'Message 1' }, expected: 'Message 1' },

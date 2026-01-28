@@ -103,11 +103,8 @@ test.describe('Feedback Form E2E Tests', () => {
       await expect(page.getByText('提交中...')).toBeVisible();
 
       // Wait for response (adjust timeout for real API)
-      await expect(page.getByRole('alert')).toBeVisible({ timeout: 30000 });
-
-      // Check for success or error message
-      const alert = page.getByRole('alert');
-      await expect(alert).toBeVisible();
+      const alert = page.locator('[role="alert"]:not(#__next-route-announcer__)').last();
+      await expect(alert).toBeVisible({ timeout: 30000 });
     });
 
     test('should disable form during submission', async ({ page }) => {
@@ -121,7 +118,8 @@ test.describe('Feedback Form E2E Tests', () => {
       await expect(page.getByText('提交中...')).toBeVisible();
 
       // Wait for submission to complete
-      await expect(page.getByRole('alert')).toBeVisible({ timeout: 30000 });
+      const alert = page.locator('[role="alert"]:not(#__next-route-announcer__)').last();
+      await expect(alert).toBeVisible({ timeout: 30000 });
     });
 
     test('should preserve content after submission', async ({ page }) => {
@@ -133,7 +131,8 @@ test.describe('Feedback Form E2E Tests', () => {
       await submitButton.click();
 
       // Wait for submission to complete
-      await expect(page.getByRole('alert')).toBeVisible({ timeout: 30000 });
+      const alert = page.locator('[role="alert"]:not(#__next-route-announcer__)').last();
+      await expect(alert).toBeVisible({ timeout: 30000 });
 
       // Content should still be there
       await expect(textarea).toHaveValue(testContent);
@@ -148,7 +147,8 @@ test.describe('Feedback Form E2E Tests', () => {
       await submitButton.click();
 
       // Wait for response
-      await expect(page.getByRole('alert')).toBeVisible({ timeout: 30000 });
+      const alert = page.locator('[role="alert"]:not(#__next-route-announcer__)').last();
+      await expect(alert).toBeVisible({ timeout: 30000 });
 
       // Wait a bit for form to re-enable
       await page.waitForTimeout(500);
@@ -177,7 +177,7 @@ test.describe('Feedback Form E2E Tests', () => {
       await page.waitForTimeout(1000);
 
       // If there's an error, textarea should have aria-invalid
-      const alert = page.getByRole('alert');
+      const alert = page.locator('[role="alert"]:not(#__next-route-announcer__)').last();
       if (await alert.isVisible()) {
         const ariaInvalid = await textarea.getAttribute('aria-invalid');
         if (ariaInvalid) {

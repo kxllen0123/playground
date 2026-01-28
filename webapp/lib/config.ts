@@ -12,16 +12,15 @@ interface FeedbackConfig {
 }
 
 function getConfig(): FeedbackConfig {
-  const requiredEnvVars = {
-    DIFY_API_ENDPOINT: process.env.DIFY_API_ENDPOINT,
-    DIFY_API_KEY: process.env.DIFY_API_KEY,
-    DIFY_ENV: process.env.DIFY_ENV
-  };
-
   // 在测试环境中，如果环境变量未设置，使用默认值
   const isTest = process.env.NODE_ENV === 'test' || process.env.VITEST === 'true';
   
-  // 验证必需的环境变量（DIFY_AGENT_ID 是可选的）
+  const requiredEnvVars = {
+    DIFY_API_ENDPOINT: process.env.DIFY_API_ENDPOINT,
+    DIFY_API_KEY: process.env.DIFY_API_KEY,
+  };
+
+  // 验证必需的环境变量（DIFY_ENV 和 DIFY_AGENT_ID 是可选的）
   const missingVars = Object.entries(requiredEnvVars)
     .filter(([, value]) => !value)
     .map(([key]) => key);
@@ -40,7 +39,7 @@ function getConfig(): FeedbackConfig {
     dify: {
       apiEndpoint: requiredEnvVars.DIFY_API_ENDPOINT || 'https://api.dify.ai/v1',
       apiKey: requiredEnvVars.DIFY_API_KEY || 'test-api-key',
-      env: requiredEnvVars.DIFY_ENV || 'test',
+      env: process.env.DIFY_ENV || (isTest ? 'test' : 'dev'),
       agentId: process.env.DIFY_AGENT_ID, // 可选
     },
   };

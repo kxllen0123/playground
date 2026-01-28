@@ -110,21 +110,35 @@ describe('uploadFileToDify Server Action', () => {
   });
 
   it('should handle upload client error', async () => {
+    // Suppress expected console.error output
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    
     mockClient.uploadFile.mockRejectedValue(new Error('Network error'));
 
     const result = await uploadFileToDify(mockFormData);
 
     expect(result.success).toBe(false);
     expect(result.message).toBe('Network error');
+    
+    // Verify console.error was called
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    consoleErrorSpy.mockRestore();
   });
 
   it('should handle unknown error', async () => {
+    // Suppress expected console.error output
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    
     mockClient.uploadFile.mockRejectedValue('Unknown error');
 
     const result = await uploadFileToDify(mockFormData);
 
     expect(result.success).toBe(false);
     expect(result.message).toBe('文件上传失败，请稍后再试');
+    
+    // Verify console.error was called
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    consoleErrorSpy.mockRestore();
   });
 
   it('should accept various image types', async () => {

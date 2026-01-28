@@ -149,6 +149,21 @@ describe('DifyFileUploadClient', () => {
       expect(result.message).toContain('文件上传失败');
     });
 
+    it('should handle error when response.text() fails', async () => {
+      (global.fetch as any).mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        text: async () => {
+          throw new Error('Failed to read response body');
+        },
+      });
+
+      const result = await client.uploadFile(mockFile);
+
+      expect(result.success).toBe(false);
+      expect(result.message).toContain('文件上传失败');
+    });
+
     it('should send correct request format', async () => {
       (global.fetch as any).mockResolvedValueOnce({
         ok: true,

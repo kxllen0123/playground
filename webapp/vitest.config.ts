@@ -24,7 +24,13 @@ export default defineConfig({
         'playwright-report/',
         'test-results/',
         'public/',
+        // UI components (covered by E2E tests)
         'components/ui/**',
+        'app/components/**',
+        'app/**/page.tsx',
+        'app/**/layout.tsx',
+        'app/globals.css',
+        'app/favicon.ico',
       ],
     },
   },

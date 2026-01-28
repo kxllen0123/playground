@@ -16,7 +16,7 @@ test.describe('Echo Page', () => {
     await input.fill('Hello World');
     await page.getByRole('button', { name: 'Submit' }).click();
 
-    await expect(page.locator('text=Echo: Hello World')).toBeVisible();
+    await expect(page.locator('text=Hi: Hello World')).toBeVisible();
   });
 
   test('should not display echo before clicking submit', async ({ page }) => {
@@ -25,7 +25,7 @@ test.describe('Echo Page', () => {
     const input = page.getByPlaceholder('Type something...');
     await input.fill('Test Input');
 
-    await expect(page.locator('text=Echo: Test Input')).not.toBeVisible();
+    await expect(page.locator('text=Hi: Test Input')).not.toBeVisible();
   });
 
   test('should update echo on multiple submits', async ({ page }) => {
@@ -36,12 +36,12 @@ test.describe('Echo Page', () => {
 
     await input.fill('First message');
     await submitButton.click();
-    await expect(page.locator('text=Echo: First message')).toBeVisible();
+    await expect(page.locator('text=Hi: First message')).toBeVisible();
 
     await input.fill('Second message');
     await submitButton.click();
-    await expect(page.locator('text=Echo: Second message')).toBeVisible();
-    await expect(page.locator('text=Echo: First message')).not.toBeVisible();
+    await expect(page.locator('text=Hi: Second message')).toBeVisible();
+    await expect(page.locator('text=Hi: First message')).not.toBeVisible();
   });
 
   test('should handle empty input', async ({ page }) => {

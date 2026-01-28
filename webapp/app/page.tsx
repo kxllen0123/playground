@@ -41,7 +41,7 @@ export default function Home() {
           {echo && (
             <div className="p-4 rounded-lg bg-zinc-100 dark:bg-zinc-800">
               <p className="text-zinc-900 dark:text-zinc-50">
-                Echo: {echo}
+                Hi: {echo}
               </p>
             </div>
           )}

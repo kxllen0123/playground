@@ -1,30 +1,42 @@
 name: Vercel E2E Preview
 on: [pull_request]
+
 permissions:
-  contents: read      # 读取代码
-  pull-requests: write # 在 PR 中发表评论
-  checks: write       # 更新检查状态
-  statuses: write     # 更新 commit 状态
-  
+  contents: read
+  pull-requests: write
+  checks: write
+
 jobs:
   e2e-test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    # ✅ 保持子目录配置不变
     defaults:
       run:
-        working-directory: ./webapp    
+        working-directory: ./webapp
+
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      # 🔄 修改点 1: 建立 Bun 环境
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18
-
+          bun-version: latest
+          # 可选：如果你的 bun.lockb 在根目录，这里不用改；
+          # 如果在 webapp 下，setup-bun 通常能自动识别，或需手动指定 cache
+          
+      # 🔄 修改点 2: 使用 Bun 安装依赖
+      # --frozen-lockfile 相当于 npm ci，确保不修改 lock 文件
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
+      # 🔄 修改点 3: 使用 Bunx 安装 Playwright 浏览器
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: bunx playwright install --with-deps
 
+      # Vercel 这一步保持不变 (它是独立的 Action)
       - name: Wait for Vercel Preview
         uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
         id: waitForVercel
@@ -32,10 +44,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           max_timeout: 300
 
+      # 🔄 修改点 4: 使用 Bunx 运行测试
       - name: Run Playwright tests
-        run: npx playwright test
+        run: bunx playwright test
         env:
-          # 动态注入预览地址
           BASE_URL: ${{ steps.waitForVercel.outputs.url }}
           CI: true
 
@@ -43,5 +55,5 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: playwright-report/
+          path: webapp/playwright-report/
           retention-days: 30

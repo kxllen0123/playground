@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
+  testMatch: /.*\.spec\.ts/,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -30,7 +31,8 @@ export default defineConfig({
     // },
   ],
 
-  webServer: {
+  // Only start local server if BASE_URL is not set (i.e., testing locally)
+  webServer: process.env.BASE_URL ? undefined : {
     command: 'bun run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,

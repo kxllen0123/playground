@@ -41,44 +41,6 @@ jobs:
           flags: unittests
           name: codecov-umbrella
 
-  e2e-tests:
-    name: E2E Tests (Local)
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./webapp
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Install Playwright browsers
-        run: bunx playwright install --with-deps
-
-      - name: Run E2E tests
-        run: bun run test:e2e
-        env:
-          BASE_URL: http://localhost:3000
-          DIFY_API_KEY: ${{ secrets.DIFY_API_KEY }}
-          DIFY_API_ENDPOINT: ${{ secrets.DIFY_API_ENDPOINT }}
-          DIFY_ENV: stage
-
-      - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report-local
-          path: webapp/playwright-report/
-          retention-days: 30
-
   e2e-preview-tests:
     name: E2E Tests (Vercel Preview)
     runs-on: ubuntu-latest

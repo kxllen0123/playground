@@ -34,7 +34,7 @@ test.describe('API Integration Tests', () => {
 
       // Should receive success message with Issue number
       const alertText = await alert.textContent();
-      expect(alertText).toMatch(/Issue #\d+|已创建|成功|您的反馈已成功提交/i);
+      expect(alertText).toMatch(/已创建|成功|您的反馈已成功提交/i);
     });
 
     test('should successfully classify and create issue for feature request', async ({
@@ -57,7 +57,7 @@ test.describe('API Integration Tests', () => {
 
       // Should receive success message
       const alertText = await alert.textContent();
-      expect(alertText).toMatch(/Issue #\d+|已创建|成功|您的反馈已成功提交/i);
+      expect(alertText).toMatch(/已创建|成功|您的反馈已成功提交/i);
     });
 
     test('should successfully classify and create issue for question', async ({
@@ -80,7 +80,7 @@ test.describe('API Integration Tests', () => {
 
       // Should receive success message
       const alertText = await alert.textContent();
-      expect(alertText).toMatch(/Issue #\d+|已创建|成功|您的反馈已成功提交/i);
+      expect(alertText).toMatch(/已创建|成功|您的反馈已成功提交/i);
     });
 
     test('should reject unclassifiable feedback', async ({ page }) => {

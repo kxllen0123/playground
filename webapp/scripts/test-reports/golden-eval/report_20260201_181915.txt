@@ -1,0 +1,6 @@
+$ playwright test "tests/e2e/golden-eval.spec.ts" "--reporter=list"
+
+Running 222 tests using 2 workers
+
+  ✓    2 [firefox] › tests/e2e/golden-eval.spec.ts:193:9 › Golden Evaluation Tests - All Cases › BUG-001: bug - 明确的错误信息、可复现的问题 (15.6s)
+  ✓    1 [chromium] › tests/e2e/golden-eval.spec.ts:193:9 › Golden Evaluation Tests - All Cases › BUG-001: bug - 明确的错误信息、可复现的问题 (17.6s)

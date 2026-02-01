@@ -12,7 +12,10 @@
     "test:coverage": "vitest --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e:headed": "playwright test --headed",
+    "test:golden": "RUN_GOLDEN_EVAL=true playwright test tests/e2e/golden-eval.spec.ts --workers=1 --retries=0",
+    "test:golden:ui": "RUN_GOLDEN_EVAL=true playwright test tests/e2e/golden-eval.spec.ts --workers=1 --retries=0 --ui",
+    "test:golden:headed": "RUN_GOLDEN_EVAL=true playwright test tests/e2e/golden-eval.spec.ts --workers=1 --retries=0 --headed"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",

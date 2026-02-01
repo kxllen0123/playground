@@ -83,11 +83,10 @@
 1. WHEN 反馈通过验证和分类 THEN THE Dify_Workflow SHALL 在 10 秒内使用 API 工具调用 GitHub_API 创建新 Issue
 2. WHEN 创建 Issue THEN THE Dify_Workflow SHALL 使用反馈内容作为 Issue 正文，保留原始格式
 3. WHEN 创建 Issue THEN THE Dify_Workflow SHALL 根据识别的类型添加对应的 1-2 个标签
-4. WHEN 创建 Issue THEN THE Dify_Workflow SHALL 生成长度在 10-100 字符之间的合适 Issue 标题
-5. WHEN 反馈包含图片 THEN THE Dify_Workflow SHALL 在 Issue 中包含图片引用或链接
-6. IF GitHub_API 调用失败 THEN THE System SHALL 在 3 次重试后返回错误并通知用户重试
-7. WHEN Issue 创建成功 THEN THE System SHALL 在 2 秒内返回包含 Issue 编号或 URL 的成功消息
-8. THE System SHALL 确保端到端反馈提交流程（包含图片）在 60 秒内完成
+4. WHEN 反馈包含图片 THEN THE Dify_Workflow SHALL 在 Issue 中包含图片引用或链接
+5. IF GitHub_API 调用失败 THEN THE System SHALL 在 3 次重试后返回错误并通知用户重试
+6. WHEN Issue 创建成功 THEN THE System SHALL 在 2 秒内返回包含 Issue 编号或 URL 的成功消息
+7. THE System SHALL 确保端到端反馈提交流程（包含图片）在 60 秒内完成
 
 ### 需求 6: GitHub Issue 标签管理
 
